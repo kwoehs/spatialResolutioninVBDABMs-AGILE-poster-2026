@@ -16,7 +16,7 @@ An agent-based model (ABM) exploring the impact of **grid cell size on dengue fe
 ## Repository layout
 
 ```
-DengueABM/
+spatialResolutioninVBDABMs-AGILE-poster-2026/
 ├── README.md                              ← this file
 ├── ODD.md                                 ← ODD protocol description (Grimm et al. 2020)
 ├── OPEN_QUESTIONS.md                      ← known limitations and discussion points for the poster
