@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata xml:lang="de"><Esri><CreaDate>20260410</CreaDate><CreaTime>14250200</CreaTime><ArcGISFormat>1.0</ArcGISFormat><SyncOnce>TRUE</SyncOnce><DataProperties><lineage><Process ToolSource="c:\program files\arcgis\pro\Resources\ArcToolbox\toolboxes\Spatial Analyst Tools.tbx\Aggregate" Date="20260410" Time="142502">Aggregate masked_map_greenness_id79229-Elsbethen.tiff C:\Gama\mymodels\DengueABM\includes\habitat_100 10 MEAN EXPAND DATA</Process></lineage></DataProperties></Esri></metadata>

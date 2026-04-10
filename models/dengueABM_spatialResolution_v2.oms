@@ -1,0 +1,97 @@
+/*
+ * OpenMOLE script for dengueABM_spatialResolution_v2
+ * ---------------------------------------------------
+ * Purpose: Direct sampling across raster resolutions to characterise the MAUP
+ *          scale effect on dengue outbreak dynamics in Elsbethen.
+ *
+ * Pattern based on:
+ *   - Day 1.md, lines 873-944 (master thesis OpenMOLE setup + troubleshooting)
+ *   - Day 1.md, lines 489-525 (Fire example: DirectSampling + hook)
+ *   - Day 1.md, lines 630-642 (Replication syntax)
+ *
+ * Before running in OpenMOLE:
+ *   1. Upload the full DengueABM folder to the OpenMOLE project workDirectory
+ *      (must include /models, /includes, and a writable /results subfolder).
+ *   2. Verify the GAMA `version` string below matches the version running on
+ *      the OpenMOLE instance (currently "2025.6.4").
+ *   3. For a first smoke test: set `sample = 2` and shorten the raster list to
+ *      2 entries. Scale up once the pipeline runs end-to-end.
+ */
+
+// -----------------------------------------------------------------------------
+// VARIABLES
+// -----------------------------------------------------------------------------
+
+// OUTPUTS — all three GAMA monitors return Int
+val timeOfPeak        = Val[Int]
+val peakInfected      = Val[Int]
+val nbLocalInfections = Val[Int]
+
+// INPUT — swept across resolutions
+val rasterPath = Val[String]
+
+// SEED for Monte Carlo replication
+val mySeed = Val[Long]
+
+
+// -----------------------------------------------------------------------------
+// GAMA TASK
+// -----------------------------------------------------------------------------
+// The first argument to GAMATask is the folder uploaded to workDirectory.
+// `gaml` is the path to the .gaml file *relative to that folder*.
+// Relative includes inside the .gaml (e.g. "../includes/...") resolve from the
+// .gaml file's own location, which is why the DengueABM folder structure
+// (models/ + includes/ as siblings) must be preserved.
+val dengueTask =
+  GAMATask(workDirectory / "DengueABM",
+    gaml             = "models/dengueABM_spatialResolution_v2.gaml",
+    parentExperiment = "openmole",    // NOTE: newer OpenMOLE API uses `parentExperiment`, not `experiment` (Day 1 notes are outdated)
+    version          = "2025.6.4",    // verify against the OpenMOLE instance's GAMA version
+    finalStep  = 540,              // 540 cycles = 180 days = 6 months
+    seed       = mySeed) set (
+
+      // INPUTS: OpenMOLE var  →  GAMA variable name (the `var:` in the experiment's parameter declaration)
+      inputs  += (rasterPath        mapped "raster_path"),
+
+      // OUTPUTS: OpenMOLE var  →  GAMA monitor LABEL (the string after `monitor`, not the value var)
+      outputs += (timeOfPeak        mapped "Time of peak"),
+      outputs += (peakInfected      mapped "Peak infected"),
+      outputs += (nbLocalInfections mapped "Local infections"),
+
+      // Pass-through so the CSV records which raster produced which result
+      outputs += rasterPath
+    )
+
+
+// -----------------------------------------------------------------------------
+// DIRECT SAMPLING across resolutions with replication per resolution
+// -----------------------------------------------------------------------------
+// Replication handles stochasticity (same raster, different seeds).
+// DirectSampling iterates over the raster_path values — one run per (raster × replicate).
+//
+// sample = 10 gives 6 rasters × 10 replicates = 60 runs for a first pass.
+// Bump to 100 once the pipeline is validated.
+val exploration =
+  DirectSampling(
+    evaluation = Replication(
+      evaluation = dengueTask,
+      seed       = mySeed,
+      sample     = 10                                              // replicates per raster (scale up later)
+    ),
+    sampling = rasterPath in Seq(
+      "../includes/masked_map_greenness_id79229-Elsbethen.tiff",   // 10 m  — original Sen2Cube NDVI
+      "../includes/habitat_50_mask.tif",                           // 50 m  — factor 5,   mean aggregation
+      "../includes/habitat_100_mask.tif",                          // 100 m — factor 10,  mean aggregation
+      "../includes/habitat_500_mask.tif",                          // 500 m — factor 50,  mean aggregation
+      "../includes/habitat_1000_mask.tif",                         // 1000 m — factor 100, mean aggregation
+      "../includes/habitat_3000_mask_singlepixle.tif"              // single-cell baseline (min aggregation)
+    )
+  )
+
+
+// -----------------------------------------------------------------------------
+// RUN + CSV HOOK
+// -----------------------------------------------------------------------------
+// One row per simulation (raster × replicate) written to results/resolution_sweep.csv.
+// Post-process in R or Python for distributions and cross-resolution comparison.
+exploration hook (workDirectory / "results" / "resolution_sweep.csv")
