@@ -86,6 +86,7 @@ See `models/dengueABM_spatialResolution_v2.oms`. The script performs a direct sa
 ### Justification still pending
 - `proba_dispersal` value (currently 0.05 per 8 h step).
 - `gonotrophic_cycle` value (currently 3 days; literature range 2–5 depending on temperature).
+- `proba_infection_human` value (currently 0.75).
 
 ## Citation and contact
 
