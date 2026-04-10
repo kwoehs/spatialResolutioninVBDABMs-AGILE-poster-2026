@@ -86,6 +86,8 @@ All agents are updated once per cycle. The order among humans (and among mosquit
 - **`raster_path` parameterized** so the grid cell size can be swept via OpenMOLE.
 - **Auto-sized grid** from the raster file (no manual matrix copy).
 - **Transmission locations** are now recorded and exported for spatial analysis.
+- **`proba_infection_human` raised** from 0.1 (v1) to 0.75 (v2).
+
 
 ---
 
