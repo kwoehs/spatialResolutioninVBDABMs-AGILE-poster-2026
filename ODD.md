@@ -107,7 +107,7 @@ All agents are updated once per cycle. The order among humans (and among mosquit
 | `elsbethen_settlement_shp` | Permanent settlement area (soft preference for humans). | Land Salzburg (2025) |
 | `proba_infection_vector = 0.9` | Probability a mosquito gets infected when biting an infectious human (DENV-1, *Ae. albopictus*, 28 °C). | Bellone et al. (2020) |
 | `proba_getinfectious_vector = 0.37` | Transmission efficiency: virus survives in mosquito to make it infectious. | Bellone et al. (2020) |
-| `proba_infection_human = 0.1` | Probability a human gets infected when bitten by an infectious mosquito. | Model assumption |
+| `proba_infection_human = 0.75` | Probability a human gets infected when bitten by an infectious mosquito. | Model assumption |
 | `proba_getinfectious_human = 0.5` | Probability an infected human becomes symptomatic/infectious. | Assumption after Asish et al. (2023) |
 | `proba_mosquito_bite = 0.1` | Probability of mosquito creation per 8 h step when an infectious human is on a risk cell. | Model assumption (≈ 1 bite per 3–4 days) |
 | `proba_dispersal = 0.05` | Probability of mosquito leaving its home range per 8 h step. | Model assumption (justification pending) |
@@ -119,16 +119,6 @@ All agents are updated once per cycle. The order among humans (and among mosquit
 
 ---
 
-## 7. Submodels
-
-- **`make_mosquito_agent`** (humans): creates one mosquito at the human's location with `is_infected = flip(proba_infection_vector)`. The mosquito enters EIP; it does *not* become infectious immediately.
-- **`reflex infect`** (mosquitoes): if the mosquito has a human target and is infectious and the target is susceptible, the target is infected with probability `proba_infection_human`; on success, `nb_localInfections` is incremented and the transmission location is recorded. With probability `proba_getinfectious_human` the new infection becomes symptomatic (→ I), otherwise it is asymptomatic and the human is marked R immediately (no stuck N state). After the attempt, `hours_since_last_feed` is reset and `my_human` is cleared.
-- **`reflex updateSIR`** (humans): advances the S / I / R health-state transitions based on `infectionDay`. After the equivalent of 8 days in state I, the human recovers.
-- **`reflex lifespan`** (mosquitoes): increments `age` and `hours_since_last_feed`; mosquitoes die after 45 days.
-- **`reflex track_peak`** (global): records the cycle and count at which `nb_humans_infected` reaches its maximum.
-- **End-of-simulation reflexes** (`end_season`, `end_simulation_noinfection`): exit the run at 540 cycles or when no infectious agents (and no mosquitoes in EIP) remain, write the transmission CSV, and flip `sim_over`.
-
----
 
 ## References
 
