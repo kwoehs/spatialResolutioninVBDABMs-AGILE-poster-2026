@@ -91,4 +91,5 @@ See `models/dengueABM_spatialResolution_v2.oms`. The script performs a direct sa
 - **Author**: Katharina Wöhs, Department of Geoinformatics Z_GIS, University of Salzburg, katharina.woehs@plus.ac.at
 - **Based on**: Wöhs, K. (2025). *Salzburg-Dengue ABM*. Master thesis, University of Salzburg.
 
-## Licence:  CC-BY-SA 4.0
+## Licence:  
+CC-BY-SA 4.0
