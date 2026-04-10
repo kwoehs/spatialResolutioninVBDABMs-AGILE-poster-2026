@@ -63,6 +63,7 @@ See `models/dengueABM_spatialResolution_v2.oms`. The script performs a direct sa
   - `proba_getinfectious_human` flip moved *inside* the `if self.is_infected` block; previously independent flips produced impossible `is_infectious=T, is_infected=F` states and a mismatch between the diagram count and the transmission map.
 - **`N` state dropped**: asymptomatic infections now go straight to `R` (previously they were stuck forever in `updateSIR`); `S` branch guarded with `is_recovered = false` so asymptomatic-R humans (`infectionDay=0`) are not reset to S.
 - **End-of-simulation flag fix**: `end_simulation_noinfection` no longer unconditionally sets `noLocalInfections=true` / `localInfections=false`; both end reflexes partition runs based on actual `nb_localInfections` count.
+- **`proba_infection_human` raised** from `0.1` (v1) to `0.75` (v2).
 
 ### Output and tracking
 - **Disease spread chart**: `nb_humans_infected` now tracks `is_infectious` (I state only).
