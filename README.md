@@ -86,12 +86,9 @@ See `models/dengueABM_spatialResolution_v2.oms`. The script performs a direct sa
 - `proba_dispersal` value (currently 0.05 per 8 h step).
 - `gonotrophic_cycle` value (currently 3 days; literature range 2–5 depending on temperature).
 
-### Open questions for the poster
-See [`OPEN_QUESTIONS.md`](OPEN_QUESTIONS.md) for the full list, including raster aggregation and risk-threshold coupling, MAUP zoning effect, mosquito home-range scaling, and response-metric choice.
-
 ## Citation and contact
 
-- **Author**: Katharina Wöhs — Department of Geoinformatics (Z_GIS), University of Salzburg
+- **Author**: Katharina Wöhs, Department of Geoinformatics Z_GIS, University of Salzburg, katharina.woehs@plus.ac.at
 - **Based on**: Wöhs, K. (2025). *Salzburg-Dengue ABM*. Master thesis, University of Salzburg.
 
 ## Key references
