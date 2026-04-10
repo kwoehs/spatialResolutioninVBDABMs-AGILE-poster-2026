@@ -91,11 +91,3 @@ See `models/dengueABM_spatialResolution_v2.oms`. The script performs a direct sa
 
 - **Author**: Katharina Wöhs, Department of Geoinformatics Z_GIS, University of Salzburg, katharina.woehs@plus.ac.at
 - **Based on**: Wöhs, K. (2025). *Salzburg-Dengue ABM*. Master thesis, University of Salzburg.
-
-## Key references
-
-- Grimm, V., et al. (2020). *The ODD protocol for describing agent-based and other simulation models: A second update to improve clarity, replication, and structural realism*. JASSS, 23(2), 7.
-- Vavassori, L., Saddler, A., & Müller, P. (2019). *Active dispersal of Aedes albopictus: a mark–release–recapture study using self-marking units*. Parasites & Vectors, 12, 583.
-- Bellone, R., et al. (2020). *The role of temperature in shaping mosquito-borne viruses transmission*. Frontiers in Microbiology, 11.
-- Sudmanns, M., et al. (2021). *Semantic Earth Observation Data Cubes (Sen2Cube)*.
-- Wallentin, G., et al. (2020). *Agent-based modelling of the COVID-19 pandemic*.
